@@ -16,11 +16,39 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+#from api.models import MovieResource
+#from api.serializers import MovieSerializer
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
 from . import views
 
+#movies_name = MovieResource()
+
+
+# swagger configration..
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Movies API",
+      default_version='v1',
+      description="API documentation for Movie endpoints",
+   ),
+   public=True,
+   permission_classes=(permissions.AllowAny,),
+)
+
+# all url configurations
 
 urlpatterns = [
     path('',views.home),
     path('admin/', admin.site.urls),
     path('movies/', include('movies.urls')),
+    path('api/',include('api.urls')),
+    
+     # Swagger UI
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+
+    # Optional: Redoc UI
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

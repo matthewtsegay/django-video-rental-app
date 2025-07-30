@@ -7,7 +7,8 @@ class GenreAdmin(admin.ModelAdmin):
  
 class MovieAdmin(admin.ModelAdmin): 
      list_display = ('genre','title','number_in_stoke','daily_rate')  
-     
+     exclude = ['date_created']
+
       
 admin.site.register(Movie,MovieAdmin)
 admin.site.register(Genre,GenreAdmin)
